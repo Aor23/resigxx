@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Farewell Scroll</title>
+<style>
+    body {
+        background-color: #2c2724; /* Dark wood-like background */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        font-family: 'Pyidaungsu', 'Padauk', sans-serif;
+        overflow-y: auto;
+        padding: 50px 0;
+    }
+    .scroll-wrapper {
+        width: 90%;
+        max-width: 700px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .roller {
+        height: 35px;
+        background: linear-gradient(to bottom, #4a2f1d, #8b5a33, #4a2f1d);
+        border-radius: 17px;
+        position: relative;
+        z-index: 2;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.7);
+        width: 106%;
+    }
+    .roller.top { margin-bottom: -15px; }
+    .roller.bottom { margin-top: -15px; }
+    
+    .roller::before, .roller::after {
+        content: '';
+        position: absolute;
+        width: 25px;
+        height: 45px;
+        background: linear-gradient(to right, #352215, #5e3b22, #352215);
+        top: -5px;
+        border-radius: 4px;
+        box-shadow: inset 0 0 5px rgba(0,0,0,0.8), 2px 2px 5px rgba(0,0,0,0.5);
+    }
+    .roller::before { left: -15px; }
+    .roller::after { right: -15px; }
+
+    .paper {
+        width: 100%;
+        background-color: #eaddc5;
+        background-image: repeating-linear-gradient(0deg, transparent, transparent 20px, rgba(0,0,0,0.03) 21px);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 3.5s ease-in-out;
+        box-shadow: inset 0 0 40px rgba(0,0,0,0.3), 0 5px 20px rgba(0,0,0,0.6);
+        position: relative;
+        z-index: 1;
+    }
+    
+    .open .paper {
+        max-height: 1500px; /* Expands to show content */
+    }
+    
+    .content {
+        padding: 60px 50px 50px 50px;
+        opacity: 0;
+        transition: opacity 2s ease-in-out 3s;
+        color: #3b2c1f;
+        font-size: 17px;
+        line-height: 2;
+        text-align: justify;
+    }
+    .open .content {
+        opacity: 1; /* Fades in after unrolling */
+    }
+    
+    .header {
+        text-align: center;
+        margin-bottom: 35px;
+        border-bottom: 2px dashed #a88d72;
+        padding-bottom: 20px;
+    }
+    .header h1 {
+        font-size: 28px;
+        margin: 0 0 15px 0;
+        color: #4a2f1d;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .header p {
+        margin: 0;
+        font-weight: bold;
+        text-align: right;
+        font-size: 15px;
+        color: #5c4431;
+    }
+    p { margin-bottom: 18px; }
+</style>
+</head>
+<body>
+
+<div class="scroll-wrapper" id="scroll">
+    <div class="roller top"></div>
+    <div class="paper">
+        <div class="content">
+            <div class="header">
+                <h1>Thanks you and Goodbye</h1>
+                <p>October 03, 2026</p>
+            </div>
+            <p>အဖွဲ့သူ/သားများ ခင်ဗျာ၊</p>
+            <p>ယနေ့ဟာ [Company Name] မှာ ကျွန်တော့်ရဲ့ နောက်ဆုံး လုပ်ငန်းခွင်ဝင်တဲ့နေ့ ဖြစ်ပါတယ်။</p>
+            <p>လွန်ခဲ့တဲ့ [Number] နှစ်က ကျွန်တော် ဒီကို စတင်ဝင်ရောက်ခဲ့စဉ်က [Your Skill/Industry] နဲ့ ပတ်သက်တဲ့ ကျွမ်းကျင်မှုတွေ သာမကဘဲ၊ ရိုးသားဖြောင့်မတ်မှု၊ ပျော်ရွှင်တက်ကြွမှု၊ ခံနိုင်ရည်ရှိမှုတို့နဲ့ ဘယ်လို အလုပ်လုပ်ရမယ်ဆိုတာကိုပါ ဒီလောက်များပြားစွာ သင်ယူခွင့်ရလိမ့်မယ်လို့ မမျှော်လင့်ခဲ့ပါဘူး။ အကောင်းဆုံး အဖွဲ့အစည်းတစ်ခုဆိုတာ ဘယ်လိုမျိုးလဲဆိုတာကို အားလုံးက စံပြအဖြစ် ပြသနိုင်ခဲ့ပါတယ်။</p>
+            <p>လမ်းညွှန်ပြသပေးမှုနဲ့ ယုံကြည်မှုတို့အတွက် [Manager Name] ကို အထူးပဲ ကျေးဇူးတင်ပါတယ်။ ခက်ခဲတဲ့ ပရောဂျက်တွေကို အောင်မြင်စွာ လုပ်ဆောင်နိုင်ဖို့ နေ့စဉ် ပူးပေါင်းပါဝင် ဆောင်ရွက်ပေးခဲ့ကြတဲ့ [Close Colleagues] ကိုလည်း ကျေးဇူးတင်ပါတယ်။</p>
+            <p>ကျွန်တော်ဟာ [New Role/Company] ကို ဆက်လက် ပြောင်းရွှေ့လုပ်ကိုင်တော့မှာ ဖြစ်ပေမယ့်၊ ဒီကနေ သင်ယူရရှိခဲ့တဲ့ သင်ခန်းစာတွေကိုတော့ ကျွန်တော်နဲ့အတူ အမြဲယူဆောင်သွားမှာပါ။ ကျွန်တော့်ကို LinkedIn [Link] ကနေဖြစ်စေ၊ အီးမေးလ် [Email] ကနေဖြစ်စေ ဆက်လက် ဆက်သွယ်နိုင်ပါတယ်။</p>
+            <p>အားလုံးပဲ အစစအရာရာ အဆင်ပြေကြပါစေ၊</p>
+            <p>Ko Aung Thaw</p>
+        </div>
+    </div>
+    <div class="roller bottom"></div>
+</div>
+
+<script>
+    // Automatically trigger the unroll animation shortly after the page loads
+    window.onload = function() {
+        setTimeout(function() {
+            document.getElementById('scroll').classList.add('open');
+        }, 300); // 0.6 second delay before unrolling starts
+    };
+</script>
+</body>
+</html>
