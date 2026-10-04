@@ -1,135 +1,358 @@
 <!DOCTYPE html>
 <html lang="my">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Farewell Scroll</title>
-<style>
-    body {
-        background-color: #2c2724; /* Dark wood-like background */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        margin: 0;
-        font-family: 'Pyidaungsu', 'Padauk', sans-serif;
-        overflow-y: auto;
-        padding: 50px 0;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Farewell Scroll · Redesigned</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    .scroll-wrapper {
-        width: 90%;
-        max-width: 700px;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    .roller {
-        height: 35px;
-        background: linear-gradient(to bottom, #4a2f1d, #8b5a33, #4a2f1d);
-        border-radius: 17px;
-        position: relative;
-        z-index: 2;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.7);
-        width: 106%;
-    }
-    .roller.top { margin-bottom: -15px; }
-    .roller.bottom { margin-top: -15px; }
-    
-    .roller::before, .roller::after {
-        content: '';
-        position: absolute;
-        width: 25px;
-        height: 45px;
-        background: linear-gradient(to right, #352215, #5e3b22, #352215);
-        top: -5px;
-        border-radius: 4px;
-        box-shadow: inset 0 0 5px rgba(0,0,0,0.8), 2px 2px 5px rgba(0,0,0,0.5);
-    }
-    .roller::before { left: -15px; }
-    .roller::after { right: -15px; }
 
+    body {
+      background: #1e1a17;
+      background-image: radial-gradient(circle at 20% 30%, #3a2e26 0%, #1b1511 90%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Pyidaungsu', 'Padauk', 'Noto Sans Myanmar', 'Segoe UI', sans-serif;
+      padding: 2rem 1rem;
+    }
+
+    /* scroll wrapper – new proportions */
+    .scroll-wrapper {
+      width: 100%;
+      max-width: 820px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      filter: drop-shadow(0 25px 30px rgba(0, 0, 0, 0.7));
+    }
+
+    /* ===== ROLLERS (wooden rods) – richer, more detailed ===== */
+    .roller {
+      height: 42px;
+      width: 112%;
+      background: linear-gradient(180deg, #6b4f33 0%, #b88a5b 40%, #6d4c2e 80%, #3e2b1b 100%);
+      border-radius: 30px;
+      position: relative;
+      z-index: 5;
+      box-shadow: 
+        0 6px 12px rgba(0, 0, 0, 0.6),
+        inset 0 1px 4px rgba(255, 220, 150, 0.5),
+        inset 0 -3px 6px rgba(0, 0, 0, 0.5);
+      border: 1px solid #2e1f13;
+    }
+
+    /* roller knobs – more ornate */
+    .roller::before,
+    .roller::after {
+      content: '';
+      position: absolute;
+      width: 32px;
+      height: 58px;
+      background: linear-gradient(90deg, #3e2b1b, #a1754b, #3e2b1b);
+      top: -8px;
+      border-radius: 8px;
+      box-shadow: 
+        inset 0 0 8px #1f140c,
+        2px 4px 10px rgba(0, 0, 0, 0.7);
+      border-left: 1px solid #b3926b;
+      border-right: 1px solid #3a2a1c;
+    }
+
+    .roller::before {
+      left: -22px;
+      transform: rotate(2deg);
+    }
+
+    .roller::after {
+      right: -22px;
+      transform: rotate(-2deg);
+    }
+
+    /* additional decorative rings on the rod */
+    .roller .ring {
+      position: absolute;
+      width: 14px;
+      height: 52px;
+      background: linear-gradient(180deg, #9f7a53, #5c3f28, #3b291c);
+      top: -5px;
+      border-radius: 20px;
+      box-shadow: inset 0 0 5px #1a1109, 0 0 10px #00000055;
+      border: 1px solid #6b4f2e;
+    }
+
+    .roller .ring.left {
+      left: 18px;
+    }
+
+    .roller .ring.right {
+      right: 18px;
+    }
+
+    .roller.top {
+      margin-bottom: -18px;
+    }
+
+    .roller.bottom {
+      margin-top: -18px;
+    }
+
+    /* ===== PAPER – aged parchment, softer edges ===== */
     .paper {
-        width: 100%;
-        background-color: #eaddc5;
-        background-image: repeating-linear-gradient(0deg, transparent, transparent 20px, rgba(0,0,0,0.03) 21px);
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 3.5s ease-in-out;
-        box-shadow: inset 0 0 40px rgba(0,0,0,0.3), 0 5px 20px rgba(0,0,0,0.6);
-        position: relative;
-        z-index: 1;
+      width: 100%;
+      background: #f3ecd8;
+      background-image: 
+        linear-gradient(145deg, rgba(230, 210, 170, 0.3) 0%, rgba(255, 245, 220, 0.5) 100%),
+        repeating-linear-gradient(45deg, rgba(160, 130, 90, 0.05) 0px, rgba(160, 130, 90, 0.05) 2px, transparent 2px, transparent 6px);
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 2.8s cubic-bezier(0.25, 1, 0.3, 1);
+      box-shadow: 
+        inset 0 0 60px rgba(120, 80, 40, 0.4),
+        inset 0 0 20px rgba(90, 60, 30, 0.5),
+        0 12px 25px rgba(0, 0, 0, 0.7);
+      border-left: 3px solid #aa8b64;
+      border-right: 3px solid #aa8b64;
+      border-radius: 0 0 6px 6px;
+      position: relative;
+      z-index: 1;
+      transform: scaleY(0.98);
+      transition: max-height 2.8s cubic-bezier(0.25, 1, 0.3, 1), transform 0.8s ease;
     }
-    
+
     .open .paper {
-        max-height: 1500px; /* Expands to show content */
+      max-height: 1700px;
+      transform: scaleY(1);
     }
-    
+
+    /* subtle edge wear */
+    .paper::before,
+    .paper::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 18px;
+      pointer-events: none;
+      background: linear-gradient(90deg, rgba(120, 80, 40, 0.3), transparent 70%);
+      z-index: 2;
+    }
+
+    .paper::before {
+      left: 0;
+    }
+
+    .paper::after {
+      right: 0;
+      background: linear-gradient(270deg, rgba(120, 80, 40, 0.3), transparent 70%);
+    }
+
+    /* ===== CONTENT – elegant, readable ===== */
     .content {
-        padding: 60px 50px 50px 50px;
-        opacity: 0;
-        transition: opacity 2s ease-in-out 3s;
-        color: #3b2c1f;
-        font-size: 17px;
-        line-height: 2;
-        text-align: justify;
+      padding: 55px 55px 55px 55px;
+      opacity: 0;
+      transition: opacity 1.8s ease-in-out 2s;
+      color: #2d241c;
+      font-size: 18px;
+      line-height: 2.1;
+      text-align: justify;
+      letter-spacing: 0.2px;
+      position: relative;
+      z-index: 3;
     }
+
     .open .content {
-        opacity: 1; /* Fades in after unrolling */
+      opacity: 1;
     }
-    
+
+    /* ===== HEADER ===== */
     .header {
-        text-align: center;
-        margin-bottom: 35px;
-        border-bottom: 2px dashed #a88d72;
-        padding-bottom: 20px;
+      text-align: center;
+      margin-bottom: 40px;
+      border-bottom: 3px double #b59b7a;
+      padding-bottom: 20px;
+      position: relative;
     }
+
     .header h1 {
-        font-size: 28px;
-        margin: 0 0 15px 0;
-        color: #4a2f1d;
-        text-transform: uppercase;
-        letter-spacing: 1px;
+      font-size: 32px;
+      margin: 0 0 18px 0;
+      color: #4a3624;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-weight: 600;
+      text-shadow: 1px 1px 0 #e6d7bb;
+      font-family: 'Pyidaungsu', 'Padauk', 'Georgia', serif;
     }
+
     .header p {
-        margin: 0;
-        font-weight: bold;
-        text-align: right;
-        font-size: 15px;
-        color: #5c4431;
+      margin: 0;
+      font-weight: 600;
+      text-align: right;
+      font-size: 16px;
+      color: #6b4f38;
+      font-style: italic;
+      letter-spacing: 0.6px;
     }
-    p { margin-bottom: 18px; }
-</style>
+
+    /* ===== PARAGRAPHS ===== */
+    p {
+      margin-bottom: 22px;
+      text-indent: 20px;
+      word-break: break-word;
+    }
+
+    /* last paragraph signature style */
+    p:last-of-type {
+      margin-top: 28px;
+      text-align: right;
+      font-weight: 600;
+      font-size: 20px;
+      color: #3b2e22;
+      text-indent: 0;
+      letter-spacing: 1px;
+      font-family: 'Padauk', 'Pyidaungsu', cursive;
+      border-top: 1px dashed #b59b7a;
+      padding-top: 22px;
+      width: 60%;
+      margin-left: auto;
+      margin-right: 0;
+    }
+
+    /* inline placeholders – subtle highlight (optional) */
+    p [data-placeholder] {
+      font-style: italic;
+      color: #7f6248;
+    }
+
+    /* responsive adjustments */
+    @media (max-width: 600px) {
+      .content {
+        padding: 35px 28px;
+        font-size: 16px;
+        line-height: 1.9;
+      }
+
+      .header h1 {
+        font-size: 24px;
+        letter-spacing: 2px;
+      }
+
+      .roller {
+        height: 34px;
+      }
+
+      .roller::before,
+      .roller::after {
+        width: 24px;
+        height: 46px;
+        top: -6px;
+      }
+
+      .roller .ring {
+        width: 10px;
+        height: 42px;
+        top: -4px;
+      }
+
+      .roller .ring.left {
+        left: 12px;
+      }
+
+      .roller .ring.right {
+        right: 12px;
+      }
+
+      p:last-of-type {
+        width: 80%;
+        font-size: 18px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .content {
+        padding: 30px 20px;
+        font-size: 15px;
+      }
+
+      .header h1 {
+        font-size: 20px;
+      }
+
+      .header p {
+        font-size: 13px;
+      }
+
+      p {
+        text-indent: 14px;
+      }
+
+      .roller::before,
+      .roller::after {
+        width: 18px;
+        height: 38px;
+        top: -5px;
+      }
+
+      .roller .ring {
+        width: 8px;
+        height: 34px;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<div class="scroll-wrapper" id="scroll">
-    <div class="roller top"></div>
-    <div class="paper">
-        <div class="content">
-            <div class="header">
-                <h1>Thanks you and Goodbye</h1>
-                <p>October 03, 2026</p>
-            </div>
-            <p>အဖွဲ့သူ/သားများ ခင်ဗျာ၊</p>
-            <p>ယနေ့ဟာ [Company Name] မှာ ကျွန်တော့်ရဲ့ နောက်ဆုံး လုပ်ငန်းခွင်ဝင်တဲ့နေ့ ဖြစ်ပါတယ်။</p>
-            <p>လွန်ခဲ့တဲ့ [Number] နှစ်က ကျွန်တော် ဒီကို စတင်ဝင်ရောက်ခဲ့စဉ်က [Your Skill/Industry] နဲ့ ပတ်သက်တဲ့ ကျွမ်းကျင်မှုတွေ သာမကဘဲ၊ ရိုးသားဖြောင့်မတ်မှု၊ ပျော်ရွှင်တက်ကြွမှု၊ ခံနိုင်ရည်ရှိမှုတို့နဲ့ ဘယ်လို အလုပ်လုပ်ရမယ်ဆိုတာကိုပါ ဒီလောက်များပြားစွာ သင်ယူခွင့်ရလိမ့်မယ်လို့ မမျှော်လင့်ခဲ့ပါဘူး။ အကောင်းဆုံး အဖွဲ့အစည်းတစ်ခုဆိုတာ ဘယ်လိုမျိုးလဲဆိုတာကို အားလုံးက စံပြအဖြစ် ပြသနိုင်ခဲ့ပါတယ်။</p>
-            <p>လမ်းညွှန်ပြသပေးမှုနဲ့ ယုံကြည်မှုတို့အတွက် [Manager Name] ကို အထူးပဲ ကျေးဇူးတင်ပါတယ်။ ခက်ခဲတဲ့ ပရောဂျက်တွေကို အောင်မြင်စွာ လုပ်ဆောင်နိုင်ဖို့ နေ့စဉ် ပူးပေါင်းပါဝင် ဆောင်ရွက်ပေးခဲ့ကြတဲ့ [Close Colleagues] ကိုလည်း ကျေးဇူးတင်ပါတယ်။</p>
-            <p>ကျွန်တော်ဟာ [New Role/Company] ကို ဆက်လက် ပြောင်းရွှေ့လုပ်ကိုင်တော့မှာ ဖြစ်ပေမယ့်၊ ဒီကနေ သင်ယူရရှိခဲ့တဲ့ သင်ခန်းစာတွေကိုတော့ ကျွန်တော်နဲ့အတူ အမြဲယူဆောင်သွားမှာပါ။ ကျွန်တော့်ကို LinkedIn [Link] ကနေဖြစ်စေ၊ အီးမေးလ် [Email] ကနေဖြစ်စေ ဆက်လက် ဆက်သွယ်နိုင်ပါတယ်။</p>
-            <p>အားလုံးပဲ အစစအရာရာ အဆင်ပြေကြပါစေ၊</p>
-            <p>Ko Aung Thaw</p>
-        </div>
+  <div class="scroll-wrapper" id="scroll">
+    <!-- top roller with decorative rings -->
+    <div class="roller top">
+      <div class="ring left"></div>
+      <div class="ring right"></div>
     </div>
-    <div class="roller bottom"></div>
-</div>
 
-<script>
-    // Automatically trigger the unroll animation shortly after the page loads
-    window.onload = function() {
+    <!-- parchment paper -->
+    <div class="paper">
+      <div class="content">
+        <div class="header">
+          <h1>Thanks & Goodbye</h1>
+          <p>October 03, 2026</p>
+        </div>
+
+        <p>အဖွဲ့သူ/သားများ ခင်ဗျာ၊</p>
+        <p>ယနေ့ဟာ [Company Name] မှာ ကျွန်တော့်ရဲ့ နောက်ဆုံး လုပ်ငန်းခွင်ဝင်တဲ့နေ့ ဖြစ်ပါတယ်။</p>
+        <p>လွန်ခဲ့တဲ့ [Number] နှစ်က ကျွန်တော် ဒီကို စတင်ဝင်ရောက်ခဲ့စဉ်က [Your Skill/Industry] နဲ့ ပတ်သက်တဲ့ ကျွမ်းကျင်မှုတွေ သာမကဘဲ၊ ရိုးသားဖြောင့်မတ်မှု၊ ပျော်ရွှင်တက်ကြွမှု၊ ခံနိုင်ရည်ရှိမှုတို့နဲ့ ဘယ်လို အလုပ်လုပ်ရမယ်ဆိုတာကိုပါ ဒီလောက်များပြားစွာ သင်ယူခွင့်ရလိမ့်မယ်လို့ မမျှော်လင့်ခဲ့ပါဘူး။ အကောင်းဆုံး အဖွဲ့အစည်းတစ်ခုဆိုတာ ဘယ်လိုမျိုးလဲဆိုတာကို အားလုံးက စံပြအဖြစ် ပြသနိုင်ခဲ့ပါတယ်။</p>
+        <p>လမ်းညွှန်ပြသပေးမှုနဲ့ ယုံကြည်မှုတို့အတွက် [Manager Name] ကို အထူးပဲ ကျေးဇူးတင်ပါတယ်။ ခက်ခဲတဲ့ ပရောဂျက်တွေကို အောင်မြင်စွာ လုပ်ဆောင်နိုင်ဖို့ နေ့စဉ် ပူးပေါင်းပါဝင် ဆောင်ရွက်ပေးခဲ့ကြတဲ့ [Close Colleagues] ကိုလည်း ကျေးဇူးတင်ပါတယ်။</p>
+        <p>ကျွန်တော်ဟာ [New Role/Company] ကို ဆက်လက် ပြောင်းရွှေ့လုပ်ကိုင်တော့မှာ ဖြစ်ပေမယ့်၊ ဒီကနေ သင်ယူရရှိခဲ့တဲ့ သင်ခန်းစာတွေကိုတော့ ကျွန်တော်နဲ့အတူ အမြဲယူဆောင်သွားမှာပါ။ ကျွန်တော့်ကို LinkedIn [Link] ကနေဖြစ်စေ၊ အီးမေးလ် [Email] ကနေဖြစ်စေ ဆက်လက် ဆက်သွယ်နိုင်ပါတယ်။</p>
+        <p>အားလုံးပဲ အစစအရာရာ အဆင်ပြေကြပါစေ၊</p>
+        <p>Ko Aung Thaw</p>
+      </div>
+    </div>
+
+    <!-- bottom roller with decorative rings -->
+    <div class="roller bottom">
+      <div class="ring left"></div>
+      <div class="ring right"></div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // Trigger unroll after a short delay – smoother experience
+      window.addEventListener('load', function() {
         setTimeout(function() {
-            document.getElementById('scroll').classList.add('open');
-        }, 300); // 0.6 second delay before unrolling starts
-    };
-</script>
+          const scrollEl = document.getElementById('scroll');
+          if (scrollEl) {
+            scrollEl.classList.add('open');
+          }
+        }, 500); // 0.5s pause before unrolling
+      });
+    })();
+  </script>
 </body>
 </html>
